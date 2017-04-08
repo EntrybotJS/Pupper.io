@@ -70,50 +70,73 @@ window.onresize = function() {
                     return vars.grid.fix(vars.random(0, street.width));
                 },
                 color: () => {
+                    var color;
                     switch(vars.random(0,20)){
                         case 0:
-                        return "white";
+                        color = "white";
+                        break;
                         case 1:
-                        return "#f2f2f2";
+                        color = "#f2f2f2";
+                        break;
                         case 2:
-                        return "gold";
+                        color = "gold";
+                        break;
                         case 3:
-                        return "66ccff";
+                        color = "66ccff";
+                        break;
                         case 4:
-                        return "#FF3333";
+                        color = "#FF3333";
+                        break;
                         case 5:
-                        return "yellow";
+                        color = "yellow";
+                        break;
                         case 6:
-                        return "#999999";
+                        color = "#999999";
+                        break;
                         case 7:
-                        return "#ff9980";
+                        color = "#ff9980";
+                        break;
                         case 8:
-                        return "#aaff00";
+                        color = "#aaff00";
+                        break;
                         case 9:
-                        return "#c2d6d6";
+                        color = "#c2d6d6";
+                        break;
                         case 10:
-                        return "#1a1a1a";
+                        color = "#1a1a1a";
+                        break;
                         case 11:
-                        return "#404040";
+                        color = "#404040";
+                        break;
                         case 12:
-                        return "#ffffff";
+                        color = "#ffffff";
+                        break;
                         case 13:
-                        return "#ffffff";
+                        color = "#ffffff";
+                        break;
                         case 14:
-                        return "#000000";
+                        color = "#000000";
+                        break;
                         case 15:
-                        return "#404040";
+                        color = "#404040";
+                        break;
                         case 16:
-                        return "#ffb366";
+                        color = "#ffb366";
+                        break;
                         case 17:
-                        return "#806600";
+                        color = "#806600";
+                        break;
                         case 18:
-                        return "#ffff4d";
+                        color = "#ffff4d";
+                        break;
                         case 19:
-                        return "#55552b";
+                        color = "#55552b";
+                        break;
                         case 20:
-                        return "#ff9900";
+                        color = "#ff9900";
+                        break;
                     }
+                    return color;
                 }
             }
         };
@@ -166,7 +189,8 @@ window.onresize = function() {
                 ctx.fillStyle = color;
                 //ctx.drawImage(this.image, this.x, this.y, this.width, this.height, 0, 20, 50, 50);
                 ctx.fillRect(this.x, this.y, this.width, this.height);
-                ctx.
+                ctx.fillStyle = "black";
+                ctx.fillText("Player",this.x + 3, this.y + 9, vars.size);
             };
             this.crashWith = function(otherobj) {
                 var myleft = this.x;
@@ -190,10 +214,10 @@ window.onresize = function() {
             this.height = height;
             this.x = x;
             this.y = y;
+            this.color = color;
             this.speed = speed;
             this.update = () => {
                 ctx = game.context;
-                ctx.fillStyle = color;
                 this.x += this.speed;
                 if(this.x > vars.street.width()){
                     this.x = 0 - this.width;
@@ -201,6 +225,7 @@ window.onresize = function() {
                     this.y = vars.obs.y();
                     this.speed = vars.obs.speed();
                 }
+                ctx.fillStyle = this.color;
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             },
             this.crashWith = function(otherobj) {
@@ -284,7 +309,7 @@ window.onresize = function() {
                     if(car[i].crashWith(car[j]) === true){
                         if(i !== j){
                             if(car[i].x < car[j].x){
-                                car[j].speed = car[i].speed + 0.25;
+                                car[j].speed = car[i].speed;
                             }
                         }
                     }
