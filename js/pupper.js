@@ -1,6 +1,14 @@
+/*
+*   pupper.js for Pupper.io
+*   by: Entrybot
+*   4/7/2017
+*   DO NOT COPY MODIFY OR RE-USE
+*/
+
 window.onresize = function() {
             location.reload();
-        }
+        };
+
         var vars = {
             size: 50,
             street: {
@@ -44,13 +52,16 @@ window.onresize = function() {
             obs:{
                 quantity: () => {
                     if (vars.game.width() < vars.street.height * 2) {
-                        return ((vars.street.height() / vars.size) * (vars.game.width() / vars.size)) * 0.2;
+                        //Desktop/Tablet
+                        return ((vars.street.height() / vars.size) * (vars.game.width() / vars.size)) * 0.30;
                     } else {
+                        //Mobile
                         return ((vars.street.height() / vars.size) * (vars.game.width() / vars.size)) * 0.15;
                     }
                 },
                 speed: () => {
-                    return vars.random(5,8);
+                    var r = vars.random(5,7);
+                    return r;
                 },
                 y: () => {
                     return vars.grid.fix(vars.random(vars.street.y(), vars.street.y() + vars.street.height() - 20));
@@ -59,19 +70,49 @@ window.onresize = function() {
                     return vars.grid.fix(vars.random(0, street.width));
                 },
                 color: () => {
-                    switch(vars.random(0,5)){
+                    switch(vars.random(0,20)){
                         case 0:
                         return "white";
                         case 1:
-                        return "lightgrey";
+                        return "#f2f2f2";
                         case 2:
                         return "gold";
                         case 3:
-                        return "blue";
+                        return "66ccff";
                         case 4:
-                        return "red";
+                        return "#FF3333";
                         case 5:
                         return "yellow";
+                        case 6:
+                        return "#999999";
+                        case 7:
+                        return "#ff9980";
+                        case 8:
+                        return "#aaff00";
+                        case 9:
+                        return "#c2d6d6";
+                        case 10:
+                        return "#1a1a1a";
+                        case 11:
+                        return "#404040";
+                        case 12:
+                        return "#ffffff";
+                        case 13:
+                        return "#ffffff";
+                        case 14:
+                        return "#000000";
+                        case 15:
+                        return "#404040";
+                        case 16:
+                        return "#ffb366";
+                        case 17:
+                        return "#806600";
+                        case 18:
+                        return "#ffff4d";
+                        case 19:
+                        return "#55552b";
+                        case 20:
+                        return "#ff9900";
                     }
                 }
             }
@@ -123,8 +164,9 @@ window.onresize = function() {
             this.update = function() {
                 ctx = game.context;
                 ctx.fillStyle = color;
-                //ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+                //ctx.drawImage(this.image, this.x, this.y, this.width, this.height, 0, 20, 50, 50);
                 ctx.fillRect(this.x, this.y, this.width, this.height);
+                ctx.
             };
             this.crashWith = function(otherobj) {
                 var myleft = this.x;
@@ -152,14 +194,29 @@ window.onresize = function() {
             this.update = () => {
                 ctx = game.context;
                 ctx.fillStyle = color;
-                this.x += speed;
+                this.x += this.speed;
                 if(this.x > vars.street.width()){
                     this.x = 0 - this.width;
-                    this.speed = null && vars.obs.speed();
                     this.color = vars.obs.color();
                     this.y = vars.obs.y();
+                    this.speed = vars.obs.speed();
                 }
                 ctx.fillRect(this.x, this.y, this.width, this.height);
+            },
+            this.crashWith = function(otherobj) {
+                var myleft = this.x;
+                var myright = this.x + (this.width - 0.001);
+                var mytop = this.y;
+                var mybottom = this.y + (this.height - 0.001);
+                var otherleft = otherobj.x;
+                var otherright = otherobj.x + (otherobj.width - 0.001);
+                var othertop = otherobj.y;
+                var otherbottom = otherobj.y + (otherobj.height - 0.001);
+                var crash = true;
+                if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                    crash = false;
+                }
+                return crash;
             };
         }
 
@@ -223,6 +280,15 @@ window.onresize = function() {
             }
             player.update();
             for(i = 0; i < car.length; i++) {
+                for(j = 0; j < car.length; j++){
+                    if(car[i].crashWith(car[j]) === true){
+                        if(i !== j){
+                            if(car[i].x < car[j].x){
+                                car[j].speed = car[i].speed + 0.25;
+                            }
+                        }
+                    }
+                }
                 car[i].update();
             }
         }
@@ -230,7 +296,7 @@ window.onresize = function() {
         $('canvas').on('swipe', Swipe(event));
 
         function Swipe(e){
-            console.log("Swiped!");
+            console.log(e);
         }
         
         document.onkeydown = Move;
