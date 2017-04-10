@@ -141,6 +141,8 @@ window.onresize = function() {
             }
         };
 
+        /*############################### GLOBAL VARIABLES ##############################*/
+
         var street;
         var river;
         var player;
@@ -148,6 +150,10 @@ window.onresize = function() {
         img.src = 'animals.png';
         var car = [];
 
+
+
+
+        /*############################### GAME AND OBJECT INITIALISATION ##############################*/
         function startGame() {
             if(screen.height < 768 && screen.width > screen.height){
                 
@@ -161,9 +167,11 @@ window.onresize = function() {
                 }
                 game.start();
             }
-            
         }
 
+
+
+        /*############################### GAME OBJECT ##############################*/
         var game = {
             canvas: document.createElement("canvas"),
             start: function() {
@@ -178,6 +186,9 @@ window.onresize = function() {
             }
         };
 
+
+
+        /*############################### PLAYER OBJECT FACTORY ##############################*/
         function Player(width, height, color, x, y, image) {
             this.width = width;
             this.height = height;
@@ -209,6 +220,9 @@ window.onresize = function() {
             };
         }
 
+
+
+        /*############################### OBSTACLE OBJECT FACTORY ##############################*/
         function Obstacle(width, height, color, x, y, speed) {
             this.width = width;
             this.height = height;
@@ -245,6 +259,9 @@ window.onresize = function() {
             };
         }
 
+
+
+        /*############################### STREET OBJECT FACTORY ##############################*/
         function Street(width, height, color, x, y){
             this.width = width;
             this.height = height;
@@ -256,6 +273,9 @@ window.onresize = function() {
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             };
         }
+
+
+
 
         function River(width, height, color, x, y){
             this.width = width;
@@ -269,11 +289,13 @@ window.onresize = function() {
             };
         }
 
+
+
+        /*############################### FPS COUNTER ##############################*/
         window.countFPS = (function () {
         var lastLoop = (new Date()).getMilliseconds();
         var count = 1;
         var fps = 0;
-
         return function () {
             var currentLoop = (new Date()).getMilliseconds();
             if (lastLoop > currentLoop) {
@@ -286,7 +308,6 @@ window.onresize = function() {
             return fps;
         };
         }());
-
         (function loop() {
             requestAnimationFrame(function () {
             $('#out').html(countFPS());
@@ -294,6 +315,9 @@ window.onresize = function() {
             });
         }());
 
+
+
+        /*############################### GAME UPDATE FOR GLOBAL OBJECTS ##############################*/
         function updateGame() {
             game.clear();
             street.update();
@@ -318,12 +342,18 @@ window.onresize = function() {
             }
         }
 
+
+
+        /*############################### FINGER SWIPE TESTING ##############################*/
         $('canvas').on('swipe', Swipe(event));
 
         function Swipe(e){
             console.log(e);
         }
-        
+
+
+
+        /*############################### PLAYER MOVEMENT FUNCTION ##############################*/
         document.onkeydown = Move;
         function Move(e) {
             e = e || window.event;
