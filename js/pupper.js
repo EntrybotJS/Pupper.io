@@ -3,146 +3,150 @@
 *   by: Entrybot
 *   4/7/2017
 *   DO NOT COPY MODIFY OR RE-USE
+*   ferluc.julien@gmail.com
 */
 
+/*############################### RELOAD ON RESIZE ##############################*/
 window.onresize = function() {
             location.reload();
         };
 
-        var vars = {
-            size: 50,
-            street: {
-                height: () => {
-                    if ((vars.game.height() / 50) % 2 === 0) return vars.grid.fix((vars.game.height() / 2) - 100);
-                    else return vars.grid.fix((vars.game.height() / 2) - 50);
-                },
-                width: () => vars.game.width(),
-                x: () => 0,
-                y: () => vars.grid.fix(vars.game.height() / 2 + 50)
-            },
-            river: {
-                height: () => {
-                    if(this.game.height % 50 === 0){
-                        return (vars.game.height() / 2) - 50;
-                    } else {
-                        return (vars.game.height() / 2) - 50 ;
-                    }
-                },
-                width: () => vars.game.width()
-            },
-            game: {
-                width: () => {
-                    if(window.innerWidth % this.size === 0){
-                        return window.innerWidth;
-                    } else {
-                        if((vars.grid.fix(window.innerWidth) / 50) % 2 === 0){
-                            return vars.grid.fix(window.innerWidth) - 50;
-                        }
-                        else {
-                            return vars.grid.fix(window.innerWidth);
-                        }
-                    }
-                },
-                height: () => Math.floor(window.innerHeight / 50) * 50
-            },
-            grid: {
-                fix: (ch) => Math.floor(ch / 50) * 50,
-            },
-            random: (min, max) =>  Math.floor(Math.random() * (max - min + 1)) + min,
-            obs:{
-                quantity: () => {
-                    if (vars.game.width() < vars.street.height * 2) {
-                        //Desktop/Tablet
-                        return ((vars.street.height() / vars.size) * (vars.game.width() / vars.size)) * 0.30;
-                    } else {
-                        //Mobile
-                        return ((vars.street.height() / vars.size) * (vars.game.width() / vars.size)) * 0.15;
-                    }
-                },
-                speed: () => {
-                    var r = vars.random(5,7);
-                    return r;
-                },
-                y: () => {
-                    return vars.grid.fix(vars.random(vars.street.y(), vars.street.y() + vars.street.height() - 20));
-                },
-                x: () => {
-                    return vars.grid.fix(vars.random(0, street.width));
-                },
-                color: () => {
-                    var color;
-                    switch(vars.random(0,20)){
-                        case 0:
-                        color = "white";
-                        break;
-                        case 1:
-                        color = "#f2f2f2";
-                        break;
-                        case 2:
-                        color = "gold";
-                        break;
-                        case 3:
-                        color = "66ccff";
-                        break;
-                        case 4:
-                        color = "#FF3333";
-                        break;
-                        case 5:
-                        color = "yellow";
-                        break;
-                        case 6:
-                        color = "#999999";
-                        break;
-                        case 7:
-                        color = "#ff9980";
-                        break;
-                        case 8:
-                        color = "#aaff00";
-                        break;
-                        case 9:
-                        color = "#c2d6d6";
-                        break;
-                        case 10:
-                        color = "#1a1a1a";
-                        break;
-                        case 11:
-                        color = "#404040";
-                        break;
-                        case 12:
-                        color = "#ffffff";
-                        break;
-                        case 13:
-                        color = "#ffffff";
-                        break;
-                        case 14:
-                        color = "#000000";
-                        break;
-                        case 15:
-                        color = "#404040";
-                        break;
-                        case 16:
-                        color = "#ffb366";
-                        break;
-                        case 17:
-                        color = "#806600";
-                        break;
-                        case 18:
-                        color = "#ffff4d";
-                        break;
-                        case 19:
-                        color = "#55552b";
-                        break;
-                        case 20:
-                        color = "#ff9900";
-                        break;
-                    }
-                    return color;
+
+/*############################### GLOBAL FUNCTIONS AND VARIABLES OBJECT ##############################*/
+var vars = {
+    size: 50,
+    street: {
+        height: () => {
+            if ((vars.game.height() / 50) % 2 === 0) return vars.grid.fix((vars.game.height() / 2) - 100);
+            else return vars.grid.fix((vars.game.height() / 2) - 50);
+        },
+        width: () => vars.game.width(),
+        x: () => 0,
+        y: () => vars.grid.fix(vars.game.height() / 2 + 50)
+    },
+    river: {
+        height: () => {
+            if(this.game.height % 50 === 0){
+                return (vars.game.height() / 2) - 50;
+            } else {
+                return (vars.game.height() / 2) - 50 ;
+            }
+        },
+        width: () => vars.game.width()
+    },
+    game: {
+        width: () => {
+            if(window.innerWidth % this.size === 0){
+                return window.innerWidth;
+            } else {
+                if((vars.grid.fix(window.innerWidth) / 50) % 2 === 0){
+                    return vars.grid.fix(window.innerWidth) - 50;
+                }
+                else {
+                    return vars.grid.fix(window.innerWidth);
                 }
             }
-        };
+        },
+        height: () => Math.floor(window.innerHeight / 50) * 50
+    },
+    grid: {
+        fix: (ch) => Math.floor(ch / 50) * 50,
+    },
+    random: (min, max) =>  Math.floor(Math.random() * (max - min + 1)) + min,
+    obs:{
+        quantity: () => {
+            if (vars.game.width() < vars.street.height * 2) {
+                //Desktop/Tablet
+                return ((vars.street.height() / vars.size) * (vars.game.width() / vars.size)) * 0.30;
+            } else {
+                //Mobile
+                return ((vars.street.height() / vars.size) * (vars.game.width() / vars.size)) * 0.15;
+            }
+        },
+        speed: () => {
+            var r = vars.random(5,7);
+            return r;
+        },
+        y: () => {
+            return vars.grid.fix(vars.random(vars.street.y(), vars.street.y() + vars.street.height() - 20));
+        },
+        x: () => {
+            return vars.grid.fix(vars.random(0, street.width));
+        },
+        color: () => {
+            var color;
+            switch(vars.random(0,20)){
+                case 0:
+                color = "white";
+                break;
+                case 1:
+                color = "#f2f2f2";
+                break;
+                case 2:
+                color = "gold";
+                break;
+                case 3:
+                color = "66ccff";
+                break;
+                case 4:
+                color = "#FF3333";
+                break;
+                case 5:
+                color = "yellow";
+                break;
+                case 6:
+                color = "#999999";
+                break;
+                case 7:
+                color = "#ff9980";
+                break;
+                case 8:
+                color = "#aaff00";
+                break;
+                case 9:
+                color = "#c2d6d6";
+                break;
+                case 10:
+                color = "#1a1a1a";
+                break;
+                case 11:
+                color = "#404040";
+                break;
+                case 12:
+                color = "#ffffff";
+                break;
+                case 13:
+                color = "#ffffff";
+                break;
+                case 14:
+                color = "#000000";
+                break;
+                case 15:
+                color = "#404040";
+                break;
+                case 16:
+                color = "#ffb366";
+                break;
+                case 17:
+                color = "#806600";
+                break;
+                case 18:
+                color = "#ffff4d";
+                break;
+                case 19:
+                color = "#55552b";
+                break;
+                case 20:
+                color = "#ff9900";
+                break;
+            }
+            return color;
+        }
+    }
+};
+
 
         /*############################### GLOBAL VARIABLES ##############################*/
-
         var street;
         var river;
         var player;
@@ -276,7 +280,7 @@ window.onresize = function() {
 
 
 
-
+        /*############################### RIVER OBJECT FACTORY ##############################*/
         function River(width, height, color, x, y){
             this.width = width;
             this.height = height;
@@ -381,3 +385,21 @@ window.onresize = function() {
                     break;
             }
         }
+
+
+        /*############################### PREVENT TOUCH SCROLLING ##############################*/
+        document.body.addEventListener("touchstart", function (e) {
+        if (e.target == canvas) {
+            e.preventDefault();
+        }
+        }, false);
+        document.body.addEventListener("touchend", function (e) {
+        if (e.target == canvas) {
+            e.preventDefault();
+        }
+        }, false);
+        document.body.addEventListener("touchmove", function (e) {
+        if (e.target == canvas) {
+            e.preventDefault();
+        }
+        }, false);
